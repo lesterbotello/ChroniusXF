@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ChroniusXF.Views.EditChronius"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:local="clr-namespace:ChroniusXF.Renderers;assembly=ChroniusXF"
+    BackgroundColor="{StaticResource BackgroundColor1}"
+    Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="StartAndExpand" Orientation="Vertical">
+            <StackLayout.Margin>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <OnPlatform.Platforms>
+                        <On Platform="iOS" Value="0, 100, 0, 0" />
+                        <On Platform="Android" Value="0, 20, 0, 0" />
+                        <On Platform="UWP" Value="0, 20, 0, 0" />
+                    </OnPlatform.Platforms>
+                </OnPlatform>
+            </StackLayout.Margin>
+            <local:IconifiedEntry
+                Margin="20,0,20,10"
+                x:Name="TxtName"
+                Keyboard="Default"
+                Text="{Binding Name}"
+                Icon="pwd_txt_bg"
+                Placeholder="Name" />
+            <local:IconifiedEntry
+                Margin="20,0,20,10"
+                x:Name="TxtDescription"
+                Text="{Binding Description}"
+                Keyboard="Default"
+                Icon="description_txt_bg"
+                Placeholder="Description" />
+            <local:IconifiedDatePicker
+                x:Name="dPckTargetDate"
+                Margin="20,0,20,10"
+                Icon="date_txt_bg"
+                Date="{Binding TargetDate}" />
+            <Button
+                Margin="20"
+                x:Name="BtnLogin"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Style="{StaticResource MainButtonStyle}"
+                Command="{Binding SaveCommand}"
+                Text="Save Chronius" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

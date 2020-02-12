@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    x:Class="ChroniusXF.Views.HomePage"
+    Title="{Binding Title}"
+    BackgroundColor="{StaticResource BackgroundColor1}">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="CenterAndExpand" Orientation="Vertical">
+            <StackLayout
+                x:Name="EmptyLayout"
+                VerticalOptions="CenterAndExpand"
+                IsVisible="{Binding IsEmptyMessageVisible}"
+                Orientation="Vertical">
+                <Label
+                    Text="Wow, such empty :( Tap on 'New Chronius' below to create a new chronius"
+                    TextColor="{StaticResource AccentColor3}"
+                    HorizontalOptions="CenterAndExpand" 
+                    HorizontalTextAlignment="Center"/>
+            </StackLayout>
+            <StackLayout
+                IsVisible="{Binding IsMainContentVisible}"
+                Margin="30, 50, 30, 200"
+                x:Name="MainContentLayout"
+                VerticalOptions="Center"
+                Orientation="Vertical">
+                <CarouselView ItemsSource="{Binding Chroni}" x:Name="carouselView">
+                    <CarouselView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="20" />
+                    </CarouselView.ItemsLayout>
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame
+                                CornerRadius="50"
+                                Margin="5"
+                                HeightRequest="300"
+                                HorizontalOptions="Center"
+                                BackgroundColor="{StaticResource BackgroundColor2}"
+                                VerticalOptions="Center">
+                                <StackLayout
+                                    VerticalOptions="Center">
+                                    <Label
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span
+                                                    Text="{Binding Name}"
+                                                    TextColor="{StaticResource AccentColor1}"
+                                                    FontAttributes="Bold"
+                                                    TextDecorations="Underline"
+                                                    FontSize="Large">
+                                                    <Span.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding SaveCommand}"
+                                                            CommandParameter="{Binding Id}">
+                                                        </TapGestureRecognizer>
+                                                    </Span.GestureRecognizers>
+                                                </Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label
+                                        Text="{Binding Description}"
+                                        TextColor="White"
+                                        FontSize="Small"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        Text="{Binding DisplayText}"
+                                        TextColor="White"
+                                        FontSize="Small"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center" />
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+                <IndicatorView
+                    ItemsSourceBy="carouselView"
+                    MaximumVisible="6"
+                    Margin="0,0,0,40"
+                    IndicatorColor="LightGray"
+                    SelectedIndicatorColor="DarkGray"
+                    HorizontalOptions="Center" />
+            </StackLayout>
+            <Button
+                Margin="20"
+                x:Name="BtnLogin"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Style="{StaticResource MainButtonStyle}"
+                Command="{Binding NewCommand}"
+                Text="New Chronius" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

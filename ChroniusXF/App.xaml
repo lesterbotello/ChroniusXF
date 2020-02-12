@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<prism:PrismApplication
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
+    mc:Ignorable="d"
+    x:Class="ChroniusXF.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="BackgroundColor1">#376F85</Color>
+            <Color x:Key="BackgroundColor2">#19323C</Color>
+            <Color x:Key="AccentColor1">#F2545B</Color>
+            <Color x:Key="AccentColor2">#A93F55</Color>
+            <Color x:Key="AccentColor3">#F3F7F0</Color>
+            <Color x:Key="AccentColor4">#DDDFDF</Color>
+            <Style x:Key="MainButtonStyle" TargetType="Button">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                <Setter Property="BorderColor" Value="{StaticResource AccentColor1}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource AccentColor1}" />
+                <Setter Property="BorderRadius" Value="23" />
+                <Setter Property="BorderWidth" Value="2" />
+                <Setter Property="WidthRequest" Value="200" />
+                <Setter Property="TextColor" Value="{StaticResource AccentColor3}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</prism:PrismApplication>
