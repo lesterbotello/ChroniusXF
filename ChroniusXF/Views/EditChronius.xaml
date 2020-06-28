@@ -6,8 +6,20 @@
     prism:ViewModelLocator.AutowireViewModel="True"
     xmlns:prism="http://prismlibrary.com"
     xmlns:local="clr-namespace:ChroniusXF.Renderers;assembly=ChroniusXF"
-    BackgroundColor="{StaticResource BackgroundColor1}"
-    Title="{Binding Title}">
+    xmlns:converters="clr-namespace:ChroniusXF.Converters"
+    BackgroundColor="{StaticResource BackgroundColor1}">
+    <ContentPage.Title>
+        <Binding Path="Chronius">
+            <Binding.Converter>
+                <converters:ChroniusTitleConverter />
+            </Binding.Converter>
+        </Binding>
+    </ContentPage.Title>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ChroniusTitleConverter x:Key="ChroniusTitleConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout VerticalOptions="StartAndExpand" Orientation="Vertical">
             <StackLayout.Margin>
@@ -23,13 +35,13 @@
                 Margin="20,0,20,10"
                 x:Name="TxtName"
                 Keyboard="Default"
-                Text="{Binding Name}"
+                Text="{Binding Chronius.Name, Mode=TwoWay}"
                 Icon="pwd_txt_bg"
                 Placeholder="Name" />
             <local:IconifiedEntry
                 Margin="20,0,20,10"
                 x:Name="TxtDescription"
-                Text="{Binding Description}"
+                Text="{Binding Chronius.Description, Mode=TwoWay}"
                 Keyboard="Default"
                 Icon="description_txt_bg"
                 Placeholder="Description" />
@@ -37,7 +49,7 @@
                 x:Name="dPckTargetDate"
                 Margin="20,0,20,10"
                 Icon="date_txt_bg"
-                Date="{Binding TargetDate}" />
+                Date="{Binding Chronius.TargetDate, Mode=TwoWay}" />
             <Button
                 Margin="20"
                 x:Name="BtnLogin"

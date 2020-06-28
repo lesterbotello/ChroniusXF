@@ -25,5 +25,6 @@
     <Folder Include="Persistence\" />
     <Folder Include="Utils\" />
     <Folder Include="Views\Components\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
 </Project>

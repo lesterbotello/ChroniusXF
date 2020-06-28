@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using ChroniusXF.DataModels;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 
@@ -15,39 +14,11 @@ namespace ChroniusXF.ViewModels
 
         public HomePageViewModel ParentViewModel { get; set; }
 
-        int _chroniusId;
-        public int ChroniusId
+        Chronius _chronius;
+        public Chronius Chronius
         {
-            get => _chroniusId;
-            set => SetProperty(ref _chroniusId, value);
-        }
-
-        string _title;
-        public string Title
-        {
-            get => _title;
-            set => SetProperty(ref _title, value);
-        }
-
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
-
-        private string _description;
-        public string Description
-        {
-            get => _description;
-            set => SetProperty(ref _description, value);
-        }
-
-        private DateTime _targetDate;
-        public DateTime TargetDate
-        {
-            get => _targetDate;
-            set => SetProperty(ref _targetDate, value);
+            get => _chronius;
+            set => SetProperty(ref _chronius, value);
         }
 
         public DelegateCommand SaveCommand { get; }
@@ -61,18 +32,9 @@ namespace ChroniusXF.ViewModels
 
         private async Task Save()
         {
-            var chronius = new Chronius
-            {
-                Id = _chroniusId,
-                Name = Name,
-                Description = Description,
-                TargetDate = TargetDate,
-                StartingDate = DateTime.Now // TODO: Figure out how to keep old starting date for updates
-            };
-
             try
             {
-                var rowsAffected = await App.Database.SaveChroniusAsync(chronius);
+                var rowsAffected = await App.Database.SaveChroniusAsync(Chronius);
 
                 if (rowsAffected == 0)
                 {
@@ -101,38 +63,14 @@ namespace ChroniusXF.ViewModels
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            Chronius chronius = null;
-
             if(parameters.ContainsKey("chronius"))
             {
-                chronius = (Chronius)parameters["chronius"];
+                Chronius = (Chronius)parameters["chronius"];
             }
 
             if(parameters.ContainsKey("parentViewModel"))
             {
                 ParentViewModel = (HomePageViewModel)parameters["parentViewModel"];
-            }
-
-            if (parameters.ContainsKey("chroniusId") && parameters["chroniusId"] != null)
-                _chroniusId = (int)parameters["chroniusId"];
-            else
-                _chroniusId = 0;
-
-            if (_chroniusId == 0)
-            {
-                Title = "New Chronius";
-                TargetDate = DateTime.Now;
-            }
-            else
-            {
-                if(chronius != null)
-                {
-                    Name = chronius.Name;
-                    Description = chronius.Description;
-                    TargetDate = chronius.TargetDate;
-
-                    Title = $"Edit '{Name}'";
-                }
             }
         }
     }
