@@ -96,7 +96,7 @@ namespace ChroniusXF.ViewModels
         {
             var param = new NavigationParameters
             {
-                { "chroniusId", 0 },
+                { "chronius", new Chronius() },
                 { "parentViewModel", this }
             };
             _navigationSerice?.NavigateAsync("EditChronius", param);
@@ -110,9 +110,8 @@ namespace ChroniusXF.ViewModels
 
                 var param = new NavigationParameters
                 {
-                    { "chroniusId", (int)id },
-                    { "parentViewModel", this },
-                    { "chronius", chroni }
+                    { "chronius", chroni },
+                    { "parentViewModel", this }
                 };
                 _navigationSerice?.NavigateAsync("EditChronius", param);
             }
