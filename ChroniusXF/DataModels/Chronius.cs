@@ -34,8 +34,5 @@ namespace ChroniusXF.DataModels
             get => _displayText;
             set => SetProperty(ref _displayText, value);
         }
-
-        [Ignore]
-        public ICommand SaveCommand { get; set; }
     }
 }

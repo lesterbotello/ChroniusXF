@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using ChroniusXF.DataModels;
 using System.Reactive.Linq;
-using System.Linq;
+using System.Windows.Input;
 
 namespace ChroniusXF.ViewModels
 {
@@ -18,6 +18,7 @@ namespace ChroniusXF.ViewModels
         INavigationService _navigationSerice;
         private Subject<bool> _isDataAvailableSubject = new Subject<bool>();
         public IDisposable _timerSubscription;
+        public ICommand EditCommand { get; }
 
         string _title;
         public string Title
@@ -51,6 +52,7 @@ namespace ChroniusXF.ViewModels
         {
             _navigationSerice = navigationService;
             NewCommand = new DelegateCommand(New);
+            EditCommand = new DelegateCommand<Chronius>(Edit);
             Title = "Chronius";
 
             _isDataAvailableSubject?
@@ -81,11 +83,6 @@ namespace ChroniusXF.ViewModels
             await Task.Run(() =>
             {
                 Chroni = App.Database.GetActiveChroni().Result;
-
-                // Setting the save command for each object to help with binding...
-                foreach(var chronius in Chroni)
-                    chronius.SaveCommand = new DelegateCommand(() => Edit(chronius.Id));
-
                 dataAvailable = Chroni.Count > 0;
             });
 
@@ -96,25 +93,20 @@ namespace ChroniusXF.ViewModels
         {
             var param = new NavigationParameters
             {
-                { "chronius", new Chronius() },
+                { "chronius", new Chronius { TargetDate = DateTime.Now } },
                 { "parentViewModel", this }
             };
             _navigationSerice?.NavigateAsync("EditChronius", param);
         }
 
-        private void Edit(int? id)
+        private void Edit(Chronius chronius)
         {
-            if(id.HasValue)
-            {
-                var chroni = Chroni.FirstOrDefault(c => c.Id == id.Value);
-
-                var param = new NavigationParameters
+            var param = new NavigationParameters
                 {
-                    { "chronius", chroni },
+                    { "chronius", chronius },
                     { "parentViewModel", this }
                 };
-                _navigationSerice?.NavigateAsync("EditChronius", param);
-            }
+            _navigationSerice?.NavigateAsync("EditChronius", param);
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters) { }
