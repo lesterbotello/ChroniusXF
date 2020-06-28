@@ -14,7 +14,7 @@ namespace ChroniusXF.ViewModels
         private IPageDialogService _dialogService;
         private readonly IChroniusDatabase _database;
 
-        public HomePageViewModel ParentViewModel { get; set; }
+        public IUpdateableHomeScreen ParentViewModel { get; set; }
 
         Chronius _chronius;
         public Chronius Chronius
@@ -49,7 +49,7 @@ namespace ChroniusXF.ViewModels
                     return;
                 }
 
-                await ParentViewModel?.LoadAvailableData();
+                await ParentViewModel?.ReloadData();
                 await _navigationService.GoBackAsync();
             }
             catch(Exception ex)
@@ -73,7 +73,7 @@ namespace ChroniusXF.ViewModels
 
             if(parameters.ContainsKey("parentViewModel"))
             {
-                ParentViewModel = (HomePageViewModel)parameters["parentViewModel"];
+                ParentViewModel = (IUpdateableHomeScreen)parameters["parentViewModel"];
             }
         }
     }

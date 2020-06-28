@@ -20,18 +20,21 @@ namespace ChroniusXF.Tests.ViewModels
             var navigationServiceMock = new Mock<INavigationService>();
             var pageDialogServiceMock = new Mock<IPageDialogService>();
             var chroniusDatabaseMock = new Mock<IChroniusDatabase>();
+            var updateableHomeScreen = new Mock<IUpdateableHomeScreen>();
             chroniusDatabaseMock.Setup(x => x.SaveChroniusAsync(chronius)).ReturnsAsync(1);
             var viewModel = new EditChroniusViewModel(navigationServiceMock.Object, pageDialogServiceMock.Object, chroniusDatabaseMock.Object);
             var navParams = new NavigationParameters
             {
                     { "chronius", chronius },
-                    { "parentViewModel", null }
+                    { "parentViewModel", updateableHomeScreen.Object }
             };
+            viewModel.OnNavigatedTo(navParams);
 
             // Act:
             viewModel.SaveCommand.Execute();
 
             // Assert:
+            updateableHomeScreen.Verify(x => x.ReloadData(), Times.Once);
             navigationServiceMock.Verify(x => x.GoBackAsync(), Times.Once);
         }
     }
