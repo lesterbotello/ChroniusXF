@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ChroniusXF.DataModels;
+using ChroniusXF.Persistence;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -11,6 +12,7 @@ namespace ChroniusXF.ViewModels
     {
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
+        private readonly IChroniusDatabase _database;
 
         public HomePageViewModel ParentViewModel { get; set; }
 
@@ -23,10 +25,11 @@ namespace ChroniusXF.ViewModels
 
         public DelegateCommand SaveCommand { get; }
 
-        public EditChroniusViewModel(INavigationService service, IPageDialogService dialogService)
+        public EditChroniusViewModel(INavigationService service, IPageDialogService dialogService, IChroniusDatabase database)
         {
             _navigationService = service;
             _dialogService = dialogService;
+            _database = database;
             SaveCommand = new DelegateCommand(async () => await Save());
         }
 
@@ -34,7 +37,7 @@ namespace ChroniusXF.ViewModels
         {
             try
             {
-                var rowsAffected = await App.Database.SaveChroniusAsync(Chronius);
+                var rowsAffected = await _database.SaveChroniusAsync(Chronius);
 
                 if (rowsAffected == 0)
                 {
