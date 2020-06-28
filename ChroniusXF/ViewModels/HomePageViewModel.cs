@@ -93,7 +93,7 @@ namespace ChroniusXF.ViewModels
         {
             var param = new NavigationParameters
             {
-                { "chronius", new Chronius() },
+                { "chronius", new Chronius { TargetDate = DateTime.Now } },
                 { "parentViewModel", this }
             };
             _navigationSerice?.NavigateAsync("EditChronius", param);
