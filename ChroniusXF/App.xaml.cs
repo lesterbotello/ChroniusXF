@@ -37,6 +37,7 @@ namespace ChroniusXF
         {
             containerRegistry.RegisterForNavigation<HomePage>();
             containerRegistry.RegisterForNavigation<EditChronius>();
+            containerRegistry.RegisterSingleton<IChroniusDatabase, ChroniusDatabase>();
         }
 
         protected override void OnInitialized()

@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace ChroniusXF.ViewModels
 {
-    public class HomePageViewModel : ViewModelBase, INavigatedAware
+    public class HomePageViewModel : ViewModelBase, INavigatedAware, IUpdateableHomeScreen
     {
         public DelegateCommand NewCommand { get; }
         INavigationService _navigationSerice;
@@ -71,10 +71,10 @@ namespace ChroniusXF.ViewModels
                     }
                 }).DisposeWith(ViewModelSubscriptions);
 
-            LoadAvailableData();
+            ReloadData();
         }
 
-        public async Task LoadAvailableData()
+        public async Task ReloadData()
         {
             // Unsubscribe from previous timer, if it exists...
             _timerSubscription?.Dispose();
