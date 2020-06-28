@@ -6,7 +6,8 @@
     prism:ViewModelLocator.AutowireViewModel="True"
     x:Class="ChroniusXF.Views.HomePage"
     Title="{Binding Title}"
-    BackgroundColor="{StaticResource BackgroundColor1}">
+    BackgroundColor="{StaticResource BackgroundColor1}"
+    x:Name="HomePageRootView">
     <ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" Orientation="Vertical">
             <StackLayout
@@ -55,8 +56,8 @@
                                                     FontSize="Large">
                                                     <Span.GestureRecognizers>
                                                         <TapGestureRecognizer
-                                                            Command="{Binding SaveCommand}"
-                                                            CommandParameter="{Binding Id}">
+                                                            Command="{Binding Source={x:Reference HomePageRootView}, Path=BindingContext.EditCommand}"
+                                                            CommandParameter="{Binding .}">
                                                         </TapGestureRecognizer>
                                                     </Span.GestureRecognizers>
                                                 </Span>
