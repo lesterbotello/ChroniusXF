@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChroniusXF.DataModels;
@@ -8,14 +7,12 @@ using SQLite;
 
 namespace ChroniusXF.Persistence
 {
-    public class ChroniusDatabase
+    public class ChroniusDatabase : IChroniusDatabase
     {
-        static readonly Lazy<SQLiteAsyncConnection> lazyInitializer = new Lazy<SQLiteAsyncConnection>(() =>
-        {
-            return new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-        });
+        SQLiteAsyncConnection _sqliteAsyncConnection;
 
-        public static SQLiteAsyncConnection Database => lazyInitializer.Value;
+        public SQLiteAsyncConnection Database => _sqliteAsyncConnection;
+
         static bool initialized = false;
 
         public ChroniusDatabase()
@@ -25,6 +22,8 @@ namespace ChroniusXF.Persistence
 
         async Task InitializeAsync()
         {
+            _sqliteAsyncConnection = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+
             if (!initialized)
             {
                 if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Chronius).Name))
