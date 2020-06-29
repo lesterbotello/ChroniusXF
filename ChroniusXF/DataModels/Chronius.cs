@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Input;
 using Prism.Mvvm;
 using SQLite;
 
@@ -28,6 +27,7 @@ namespace ChroniusXF.DataModels
         }
 
         string _displayText;
+
         [Ignore]
         public string DisplayText
         {

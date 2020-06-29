@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="http://prismlibrary.com"
     prism:ViewModelLocator.AutowireViewModel="True"
+    xmlns:dataModels="clr-namespace:ChroniusXF.DataModels"
     x:Class="ChroniusXF.Views.HomePage"
     Title="{Binding Title}"
     BackgroundColor="{StaticResource BackgroundColor1}"
@@ -39,6 +40,7 @@
                                 HeightRequest="300"
                                 HorizontalOptions="Center"
                                 BackgroundColor="{StaticResource BackgroundColor2}"
+                                x:DataType="dataModels:Chronius"
                                 VerticalOptions="Center">
                                 <StackLayout
                                     VerticalOptions="Center">
@@ -84,7 +86,7 @@
                     </CarouselView.ItemTemplate>
                 </CarouselView>
                 <IndicatorView
-                    ItemsSourceBy="carouselView"
+                    ItemsSource="{Binding Chroni}"
                     MaximumVisible="6"
                     Margin="0,0,0,40"
                     IndicatorColor="LightGray"

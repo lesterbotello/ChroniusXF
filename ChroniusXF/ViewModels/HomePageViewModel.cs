@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using ChroniusXF.DataModels;
 using System.Reactive.Linq;
 using System.Windows.Input;
+using ChroniusXF.Persistence;
 
 namespace ChroniusXF.ViewModels
 {
@@ -16,6 +17,7 @@ namespace ChroniusXF.ViewModels
     {
         public DelegateCommand NewCommand { get; }
         INavigationService _navigationSerice;
+        IChroniusDatabase _chroniusDatabase;
         private Subject<bool> _isDataAvailableSubject = new Subject<bool>();
         public IDisposable _timerSubscription;
         public ICommand EditCommand { get; }
@@ -48,9 +50,10 @@ namespace ChroniusXF.ViewModels
             set => SetProperty(ref _chroni, value);
         }
 
-        public HomePageViewModel(INavigationService navigationService)
+        public HomePageViewModel(INavigationService navigationService, IChroniusDatabase chroniusDatabase)
         {
             _navigationSerice = navigationService;
+            _chroniusDatabase = chroniusDatabase;
             NewCommand = new DelegateCommand(New);
             EditCommand = new DelegateCommand<Chronius>(Edit);
             Title = "Chronius";
@@ -80,9 +83,9 @@ namespace ChroniusXF.ViewModels
             _timerSubscription?.Dispose();
 
             bool dataAvailable = false;
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                Chroni = App.Database.GetActiveChroni().Result;
+                Chroni = await _chroniusDatabase.GetActiveChroni();
                 dataAvailable = Chroni.Count > 0;
             });
 
