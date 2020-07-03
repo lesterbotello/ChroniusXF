@@ -1,6 +1,7 @@
 ﻿using System;
 using Prism.Mvvm;
 using SQLite;
+using Xamarin.Essentials;
 
 namespace ChroniusXF.DataModels
 {
@@ -12,6 +13,9 @@ namespace ChroniusXF.DataModels
         public string Description { get; set; }
         public DateTime TargetDate { get; set; }
         public DateTime StartingDate { get; set; }
+        public long? Latitude { get; set; }
+        public long? Longitude { get; set; }
+        public int EventTypeId { get; set; }
 
         [Ignore]
         public bool IsActive
@@ -34,5 +38,22 @@ namespace ChroniusXF.DataModels
             get => _displayText;
             set => SetProperty(ref _displayText, value);
         }
+
+        [Ignore]
+        public Location Location
+        {
+            get
+            {
+                if(Longitude != null && Latitude != null)
+                {
+                    return new Location(Latitude.Value, Longitude.Value);
+                }
+
+                return null;
+            }
+        }
+
+        [Ignore]
+        public EventType EventType => (EventType)EventTypeId;
     }
 }

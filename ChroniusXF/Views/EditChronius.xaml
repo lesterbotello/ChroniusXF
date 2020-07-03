@@ -17,7 +17,11 @@
     </ContentPage.Title>
     <ContentPage.Resources>
         <ResourceDictionary>
-            <converters:ChroniusTitleConverter x:Key="ChroniusTitleConverter" />
+            <Style x:Key="IconifiedEntryStyle" TargetType="local:IconifiedEntry">
+                <Setter Property="Margin" Value="20,0,20,10" />
+            </Style>
+            <converters:EventTypeToNameConverter x:Key="EventTypeToNameConverter" />
+            <converters:EventTypeToLocationAwareConverter x:Key="EventTypeToLocationAwareConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -32,27 +36,42 @@
                 </OnPlatform>
             </StackLayout.Margin>
             <local:IconifiedEntry
-                Margin="20,0,20,10"
-                x:Name="TxtName"
+                Style="{StaticResource IconifiedEntryStyle}"
                 Keyboard="Default"
                 Text="{Binding Chronius.Name, Mode=TwoWay}"
                 Icon="pwd_txt_bg"
                 Placeholder="Name" />
             <local:IconifiedEntry
-                Margin="20,0,20,10"
-                x:Name="TxtDescription"
+                Style="{StaticResource IconifiedEntryStyle}"
                 Text="{Binding Chronius.Description, Mode=TwoWay}"
                 Keyboard="Default"
                 Icon="description_txt_bg"
                 Placeholder="Description" />
             <local:IconifiedDatePicker
-                x:Name="dPckTargetDate"
-                Margin="20,0,20,10"
+                Style="{StaticResource IconifiedEntryStyle}"
                 Icon="date_txt_bg"
                 Date="{Binding Chronius.TargetDate, Mode=TwoWay}" />
+            <StackLayout>
+                <local:IconifiedEntry
+                    Style="{StaticResource IconifiedEntryStyle}"
+                    Text="{Binding Chronius.EventType, Converter={StaticResource EventTypeToNameConverter}}"
+                    Icon="description_txt_bg"
+                    IsEnabled="False"
+                    Placeholder="Event type">
+                </local:IconifiedEntry>
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding PickEventTypeCommand}"></TapGestureRecognizer>
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+            <Button
+                Margin="0,5"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                IsVisible="{Binding Chronius.EventType, Converter={StaticResource EventTypeToLocationAwareConverter}}"
+                Style="{StaticResource MainButtonStyle}"
+                Text="Add Location..." />
             <Button
                 Margin="20"
-                x:Name="BtnLogin"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
                 Style="{StaticResource MainButtonStyle}"

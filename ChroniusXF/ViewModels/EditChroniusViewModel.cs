@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ChroniusXF.DataModels;
 using ChroniusXF.Persistence;
@@ -10,11 +11,12 @@ namespace ChroniusXF.ViewModels
 {
     public class EditChroniusViewModel : ViewModelBase, INavigatedAware
     {
-        private INavigationService _navigationService;
-        private IPageDialogService _dialogService;
+        private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
         private readonly IChroniusDatabase _database;
+        private bool _isReady;
 
-        public IUpdateableHomeScreen ParentViewModel { get; set; }
+        private IUpdateableHomeScreen ParentViewModel { get; set; }
 
         Chronius _chronius;
         public Chronius Chronius
@@ -25,12 +27,29 @@ namespace ChroniusXF.ViewModels
 
         public DelegateCommand SaveCommand { get; }
 
+        public DelegateCommand PickEventTypeCommand => new DelegateCommand(async () =>
+        {
+            var eventTypes = Enum.GetValues(typeof(EventType)).Cast<EventType>();
+            var actionButtons = eventTypes.Select(et => 
+                ActionSheetButton.CreateButton(
+                    et.ToName(),
+                    () =>
+                    {
+                        if (Chronius != null)
+                        {
+                            Chronius.EventTypeId = (int) et;
+                            RaisePropertyChanged(nameof(Chronius));
+                        }
+                    })).ToArray();
+            await _dialogService.DisplayActionSheetAsync("Select Event Type", actionButtons);
+        });
+
         public EditChroniusViewModel(INavigationService service, IPageDialogService dialogService, IChroniusDatabase database)
         {
             _navigationService = service;
             _dialogService = dialogService;
             _database = database;
-            SaveCommand = new DelegateCommand(async () => await Save());
+            SaveCommand = new DelegateCommand(async () => await Save(), () => _isReady);
         }
 
         private async Task Save()
@@ -59,7 +78,6 @@ namespace ChroniusXF.ViewModels
                         "Alert", $"An error occurred while saving the Chronius: {ex.Message}", "OK"
                     );
             }
-
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters) { }
@@ -75,6 +93,9 @@ namespace ChroniusXF.ViewModels
             {
                 ParentViewModel = (IUpdateableHomeScreen)parameters["parentViewModel"];
             }
+
+            _isReady = true;
+            SaveCommand.RaiseCanExecuteChanged();
         }
     }
 }

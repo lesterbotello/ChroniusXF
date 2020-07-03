@@ -23,6 +23,7 @@ namespace ChroniusXF.iOS.Renderers
                     Control.Layer.CornerRadius = 17f;
                     Control.LeftView = new UIView(new RectangleF(0, 10, 12, 12));
                     Control.LeftViewMode = UITextFieldViewMode.Always;
+                    Control.Layer.MasksToBounds = true;
 
                     if (element.Icon != "")
                     {
