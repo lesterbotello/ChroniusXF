@@ -28,7 +28,7 @@ namespace ChroniusXF.Tests.ViewModels
                     { "chronius", chronius },
                     { "parentViewModel", updateableHomeScreen.Object }
             };
-            viewModel.OnNavigatedTo(navParams);
+            viewModel.Initialize(navParams);
 
             // Act:
             viewModel.SaveCommand.Execute();

@@ -9,7 +9,7 @@ using Prism.Services;
 
 namespace ChroniusXF.ViewModels
 {
-    public class EditChroniusViewModel : ViewModelBase, INavigatedAware
+    public class EditChroniusViewModel : ViewModelBase, IInitialize
     {
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
@@ -80,9 +80,7 @@ namespace ChroniusXF.ViewModels
             }
         }
 
-        public void OnNavigatedFrom(INavigationParameters parameters) { }
-
-        public void OnNavigatedTo(INavigationParameters parameters)
+        public void Initialize(INavigationParameters parameters)
         {
             if(parameters.ContainsKey("chronius"))
             {
