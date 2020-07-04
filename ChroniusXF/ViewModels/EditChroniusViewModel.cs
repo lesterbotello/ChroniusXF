@@ -26,6 +26,21 @@ namespace ChroniusXF.ViewModels
         }
 
         public DelegateCommand SaveCommand { get; }
+        
+        public DelegateCommand NavigateToAddLocation => new DelegateCommand(async () =>
+        {
+            var eventType = Chronius.EventType;
+
+            if (eventType == EventType.Meeting || eventType == EventType.Party ||
+                eventType == EventType.Seminar)
+            {
+                await _navigationService.NavigateAsync("AddLocation");
+            }
+            else
+            {
+                await _dialogService.DisplayAlertAsync("Chronius", "This event type doesn't need a location.", "Ok");
+            }
+        });
 
         public DelegateCommand PickEventTypeCommand => new DelegateCommand(async () =>
         {

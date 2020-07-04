@@ -37,5 +37,50 @@ namespace ChroniusXF.Tests.ViewModels
             updateableHomeScreen.Verify(x => x.ReloadData(), Times.Once);
             navigationServiceMock.Verify(x => x.GoBackAsync(), Times.Once);
         }
+
+        [Theory(DisplayName = "NavigateToAddLocation_WhenEventTypeAllowsNavigation_ShouldNavigateToAddLocationPage")]
+        [InlineData(EventType.Meeting)]
+        [InlineData(EventType.Party)]
+        [InlineData(EventType.Seminar)]
+        public void NavigateToAddLocation_WhenEventTypeAllowsNavigation_ShouldNavigateToAddLocationPage(EventType eventType)
+        {
+            // Arrange:
+            var fixture = new Fixture();
+            var navigationServiceMock = new Mock<INavigationService>();
+            var pageDialogServiceMock = new Mock<IPageDialogService>();
+            var viewModel = new EditChroniusViewModel(navigationServiceMock.Object, pageDialogServiceMock.Object, null)
+            {
+                Chronius = fixture.Build<Chronius>().With(c => c.EventTypeId, (int) eventType).Create()
+            };
+            
+            // Act:
+            viewModel.NavigateToAddLocation.Execute();
+            
+            // Assert:
+            navigationServiceMock.Verify(x => x.NavigateAsync("AddLocation"), Times.Once);
+        }
+        
+        [Theory(DisplayName = "NavigateToAddLocation_WhenEventTypeDoesNotAllowNavigation_ShouldNavigateToAddLocationPage")]
+        [InlineData(EventType.Anniversary)]
+        [InlineData(EventType.Birthday)]
+        [InlineData(EventType.Reminder)]
+        [InlineData(EventType.OnlineMeeting)]
+        public void NavigateToAddLocation_WhenEventTypeDoesNotAllowNavigation_ShouldNavigateToAddLocationPage(EventType eventType)
+        {
+            // Arrange:
+            var fixture = new Fixture();
+            var navigationServiceMock = new Mock<INavigationService>();
+            var pageDialogServiceMock = new Mock<IPageDialogService>();
+            var viewModel = new EditChroniusViewModel(navigationServiceMock.Object, pageDialogServiceMock.Object, null)
+            {
+                Chronius = fixture.Build<Chronius>().With(c => c.EventTypeId, (int) eventType).Create()
+            };
+            
+            // Act:
+            viewModel.NavigateToAddLocation.Execute();
+            
+            // Assert:
+            pageDialogServiceMock.Verify(x => x.DisplayAlertAsync("Chronius", "This event type doesn't need a location.", "Ok"), Times.Once);
+        }
     }
 }

@@ -67,8 +67,8 @@
                 Margin="0,5"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
-                IsVisible="{Binding Chronius.EventType, Converter={StaticResource EventTypeToLocationAwareConverter}}"
                 Style="{StaticResource MainButtonStyle}"
+                Command="{Binding NavigateToAddLocation}"
                 Text="Add Location..." />
             <Button
                 Margin="20"

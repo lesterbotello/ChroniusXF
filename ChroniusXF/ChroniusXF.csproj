@@ -27,4 +27,15 @@
     <Folder Include="Views\Components\" />
     <Folder Include="Converters\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Views\AddLocation.xaml">
+      <SubType>Designer</SubType>
+      <Generator></Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\AddLocation.xaml.cs">
+      <DependentUpon>AddLocation.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
