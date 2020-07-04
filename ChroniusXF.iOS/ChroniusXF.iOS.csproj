@@ -69,7 +69,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\GradientColorStackLayoutRenderer.cs" />
     <Compile Include="Renderers\IconifiedEntryRenderer.cs" />
-    <Compile Include="Renderers\IconifiedDatePickerRendeerer.cs" />
+    <Compile Include="Renderers\IconifiedDatePickerRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -147,6 +147,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\date_txt_bg.png" />
     <BundleResource Include="Resources\description_txt_bg.png" />
+    <BundleResource Include="Resources\materialdesignicons-webfont.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
     <BundleResource Include="Resources\pwd_txt_bg.png" />
   </ItemGroup>
 </Project>

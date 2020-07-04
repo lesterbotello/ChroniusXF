@@ -25,6 +25,12 @@
                 <Setter Property="WidthRequest" Value="200" />
                 <Setter Property="TextColor" Value="{StaticResource AccentColor3}" />
             </Style>
+            <ResourceDictionary>
+                <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                    <On Platform="iOS" Value="Material Design Icons" />
+                    <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons" />
+                </OnPlatform>
+            </ResourceDictionary>
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
