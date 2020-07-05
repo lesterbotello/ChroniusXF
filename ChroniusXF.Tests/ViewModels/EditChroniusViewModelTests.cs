@@ -38,11 +38,11 @@ namespace ChroniusXF.Tests.ViewModels
             navigationServiceMock.Verify(x => x.GoBackAsync(), Times.Once);
         }
 
-        [Theory(DisplayName = "NavigateToAddLocation_WhenEventTypeAllowsNavigation_ShouldNavigateToAddLocationPage")]
+        [Theory(DisplayName = "NavigateToAddLocation_IfEventTypeAllowsLocation_CheckForNavigation")]
         [InlineData(EventType.Meeting)]
         [InlineData(EventType.Party)]
         [InlineData(EventType.Seminar)]
-        public void NavigateToAddLocation_WhenEventTypeAllowsNavigation_ShouldNavigateToAddLocationPage(EventType eventType)
+        public void NavigateToAddLocation_IfEventTypeAllowsLocation_CheckForNavigation(EventType eventType)
         {
             // Arrange:
             var fixture = new Fixture();
@@ -59,13 +59,13 @@ namespace ChroniusXF.Tests.ViewModels
             // Assert:
             navigationServiceMock.Verify(x => x.NavigateAsync("AddLocation"), Times.Once);
         }
-        
-        [Theory(DisplayName = "NavigateToAddLocation_WhenEventTypeDoesNotAllowNavigation_ShouldNavigateToAddLocationPage")]
+
+        [Theory(DisplayName = "NavigateToAddLocation_IfEventTypeDoesNotAllowLocation_CheckForDialog")]
         [InlineData(EventType.Anniversary)]
         [InlineData(EventType.Birthday)]
         [InlineData(EventType.Reminder)]
         [InlineData(EventType.OnlineMeeting)]
-        public void NavigateToAddLocation_WhenEventTypeDoesNotAllowNavigation_ShouldNavigateToAddLocationPage(EventType eventType)
+        public void NavigateToAddLocation_IfEventTypeDoesNotAllowLocation_CheckForDialog(EventType eventType)
         {
             // Arrange:
             var fixture = new Fixture();
